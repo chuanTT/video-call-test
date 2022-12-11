@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext } from "react";
+import Video from "./component/Video";
+
+import { socketContext } from "./context/socket";
 
 function App() {
+  const { localStream, idPeer, idCaller, setIdCaller, remoteStreamUser, Caller } =
+    useContext(socketContext);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <span style={{ display: "block", marginLeft: 10 }}>ID: {idPeer}</span>
+      <div style={{ marginTop: 5, display: "flex", marginBottom: 5 }}>
+        <Video id="Me" refVideo={localStream} />
+        <Video id="Me" refVideo={remoteStreamUser}/>
+      </div>
+
+      <input type="text" placeholder="Nhập id" value={idCaller} onChange={e=> {
+        setIdCaller(e.target.value)
+      }}/>
+      <button onClick={Caller}>Call</button>
     </div>
   );
 }
